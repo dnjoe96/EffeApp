@@ -1,0 +1,63 @@
+{% extends"./layout.html"%}
+
+{% block body %}
+	<nav class="navtop">
+		<div>
+			<h1>E Report</h1>
+			<a href="/"><i class="fas fa-home"></i>Home</a>
+		</div>
+	</nav>
+
+	{% include 'includes/_messages.html' %}
+	
+	<div class="register">
+		<h1>Register</h1>
+		<div class="links">
+			<a href="{{ url_for('admin_login') }}">Login</a>
+			<a href="{{ url_for('admin_signup') }}" class="active">Register</a>
+		</div>
+		<form action="" method="post" autocomplete="off">
+			<label for="username">
+				<i class="fas fa-user"></i>
+			</label>
+			<input type="text" name="username" placeholder="Username" id="username" required>
+			<label for="email">
+				<i class="fas fa-envelope"></i>
+			</label>
+			<input type="email" name="email" placeholder="Email" id="email" required>
+			<label for="password">
+				<i class="fas fa-lock"></i>
+			</label>
+			<input type="password" name="password" placeholder="Password" id="password" required>
+			<label for="is_admin">
+				<i class="fas fa-user"></i>
+			</label>
+			<label for="firstname">
+				<i class="fas fa-user"></i>
+			</label>
+			<input type="text" name="firstname" placeholder="First Name" id="firstname" required>
+			<label for="lastname">
+				<i class="fas fa-user"></i>
+			</label>
+			<input type="text" name="lastname" placeholder="Last Name" id="lastname" required>
+
+			<label for="image">
+				<i class="fas fa-image"></i>
+			</label>
+			<input type="file"" name="image" placeholder="Image" id="image" required>
+
+			<label for="department">
+				<i class="fas fa-home"></i>
+			</label>
+			<input type="text" name="department" placeholder="Department" id="department" required>
+			<label for="position">
+				<i class="fas fa-user"></i>
+			</label>
+			<input type="number" name="position" placeholder="Position" id="position" min="1" required>
+			
+			<div class="msg">{{ msg }}</div>
+			<input type="submit" value="Register">
+		</form>
+	</div>
+
+{% endblock %}

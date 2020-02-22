@@ -38,5 +38,5 @@ class Admin(db.Model):
         return '<username {}>'.format(self.username)
 
 
-class Car_Registration(db.Model):
-    pass
+# class Car_Registration(db.Model):
+#     pass
