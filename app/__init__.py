@@ -10,4 +10,5 @@ db = SQLAlchemy(app)
 moment = Moment(app)
 migrate = Migrate(app, db)
 
-from app import routes
+
+from app import route

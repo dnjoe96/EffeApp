@@ -38,5 +38,20 @@ class Admin(db.Model):
         return '<username {}>'.format(self.username)
 
 
-# class Car_Registration(db.Model):
-#     pass
+class Vehicle(db.Model):
+    """Vehicle Model """
+
+    __tablename__ = 'vehicles'
+
+    id = db.Column(db.Integer, primary_key=True)
+    firstname = db.Column(db.String(100), nullable=False)
+    lastname = db.Column(db.String(100), nullable=False)
+    vehicle_number = db.Column(db.String(20), nullable=False)
+    chasis_num = db.Column(db.String(20), nullable=False)
+    color = db.Column(db.String(100), nullable=False)
+    image = db.Column(db.String(250), nullable=False)
+    created_on = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return '<Vehicle {}>'.format(self.vehicle_number)
+
