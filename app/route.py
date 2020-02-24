@@ -1,8 +1,19 @@
-from flask import render_template, request, redirect, url_for, flash, session
+from flask import(Flask,render_template, request, redirect, url_for,session,flash)
+from app.forms import (VehicleForm,SearchForm)
+# from flask_uploads import UploadSet, IMAGES
+from werkzeug.utils import secure_filename
 from app import app, db
+import os
+from io import BytesIO
+from datetime import datetime
 from functools import wraps
-from app.models import Personnel, Admin
+from app.models import Personnel, Admin, Vehicle
 from werkzeug.security import generate_password_hash, check_password_hash
+
+
+UPLOAD_FOLDER = 'app/static/uploads'
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 def is_logged_in(f):
@@ -17,7 +28,6 @@ def is_logged_in(f):
     return wrapped
 
 
-
 @app.route('/', methods=['GET', 'POST'])
 def home():
     '''
@@ -25,7 +35,8 @@ def home():
     the form where the client will input ID for the vehicle will be rendered here on get and on submission,
     validate from database.
     '''
-    return render_template('index.html')
+    form = SearchForm()
+    return render_template('vehicle/search.html', form=form)
 
 
 ####################################################################################################################
@@ -39,7 +50,8 @@ def admin():
     This renders the admin landing page. admin page will query everything from the database which will contain all the information of registered
     vehicles.
     '''
-    return render_template('admin/dashboard.html')
+    result = Vehicle.query.order_by(Vehicle.vehicle_number).all()
+    return render_template('index.html', results=result)
 
 
 @app.route('/admin/sign_up', methods=['GET', 'POST'])
@@ -85,7 +97,11 @@ def admin_login():
 
         if username and password:
             find = Admin.query.filter_by(username=username).first()
-            verify = check_password_hash(find.password_hash, password)
+            if find:
+                verify = check_password_hash(find.password_hash, password)
+            else:
+                flash('Invalid username or password, try again or visit admin to reset password', 'danger')
+                return redirect(url_for('admin_login'))
 
             if find is None or verify is False:
                 flash('Invalid username or password, try again or visit admin to reset password', 'danger')
@@ -169,18 +185,74 @@ def login():
 
     return render_template('login.html')
 
-#############################################################################################################
+
+@app.route('/logout')
+@is_logged_in
+def logout():
+    session.clear()
+    flash('You are now logged out', 'success')
+    return redirect(url_for('login'))
 
 
-#############################################################################################################
-########################### VEHICLE REGISTRATION ############################################################
-#############################################################################################################
+@app.route('/admin/vehicle/add', methods=['GET', 'POST'])
+def add():
+     form = VehicleForm()
+     if form.validate_on_submit():
+        firstname = form.firstname.data
+        lastname = form.lastname.data
+        vehicle_number = form.vehicle_number.data
+        chasis_num = form.chasis_num.data
+        color = form.color.data
 
-@app.route('/admin/register', methods=['GET', 'POST'])
-def vehicle_register():
-    '''
-    This is the route for registration of users, it should be on the Nav bar on a side br in the admin panel.
-    on get, it renders the data entry form, on post, it submits to the database
-    :return:
-    '''
-    pass
+        '''trying file upload'''
+        img = form.image.data
+        # filename = secure_filename(form.image.data.filename)
+        # image = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        # form.image.data.save(image)
+        existing_vehicle = Vehicle.query.filter_by(vehicle_number=vehicle_number).first()
+
+        if existing_vehicle is None:
+            vehicle = Vehicle(firstname=firstname,lastname=lastname,vehicle_number=vehicle_number,chasis_num=chasis_num,color=color,image=img.read())
+            db.session.add(vehicle)
+            db.session.commit()
+            flash('New vehicle added successfully')
+            return redirect(url_for('add'))
+        else:
+            flash('Vehicle already exist')
+            return redirect(url_for('add'))
+
+     return render_template('vehicle/register.html', form=form)
+
+
+@app.route('/vehicle/search', methods=['GET', 'POST'])
+def search():
+     form = SearchForm()
+     if form.validate_on_submit():
+        vehicle_number = form.vehicle_number.data
+        existing_vehicle = Vehicle.query.filter_by(vehicle_number=vehicle_number).first()
+
+        if existing_vehicle is None:
+            flash('No such vehicle')
+            return redirect(url_for('search'))
+        else:
+            session['search'] = vehicle_number
+            flash('Vehicle exist')
+            return redirect(url_for('vehicle'))
+        #flash('Vehicle exist')
+
+     return render_template('vehicle/search.html', form=form)
+
+
+@app.route('/vehicle')
+def vehicle():
+    result = Vehicle.query.filter_by(vehicle_number=session['search']).first() 
+    return render_template('vehicle/vehicle.html',result = result)
+
+
+@app.route('/delete/<vehicle_number>', methods=['POST'])
+def delete(vehicle_number):
+    Vehicle.query.filter_by(vehicle_number=vehicle_number).delete()
+    db.session.commit()
+
+    flash('This vehicle has been deleted', 'success')
+    return redirect(url_for('admin'))

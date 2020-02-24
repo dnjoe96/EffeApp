@@ -19,7 +19,7 @@
       <nav class="mt-2">
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"           data-accordion="false">
             <li class="nav-item has-treeview menu-open">
-                <a href="/dashboard" class="nav-link">
+                <a href="/admin" class="nav-link">
                     <!-- <i class="nav-icon fas fa-tachometer-alt"></i> -->
                     <p>
                     Dashboard
@@ -28,16 +28,25 @@
                 </a>
             </li>
             <li class="nav-item has-treeview menu-open">
-                <a href="/staffs" class="nav-link">
+                <a href="/admin/vehicle/add" class="nav-link">
                     <!-- <i class="nav-icon fas fa-tachometer-alt"></i> -->
                     <p>
-                    Employees
+                    Register Vehicle
+                    <!-- <i class="right fas fa-angle-left"></i> -->
+                    </p>
+                </a>
+            </li>
+              <li class="nav-item has-treeview menu-open">
+                <a href="/admin/personnel" class="nav-link">
+                    <!-- <i class="nav-icon fas fa-tachometer-alt"></i> -->
+                    <p>
+                    Register Personnel
                     <!-- <i class="right fas fa-angle-left"></i> -->
                     </p>
                 </a>
             </li>
             <li class="nav-item has-treeview menu-open">
-                <a href="/logout" class="nav-link">
+                <a href="logout" class="nav-link">
                     <!-- <i class="nav-icon fas fa-tachometer-alt"></i> -->
                     <p>
                     logout
@@ -63,7 +72,7 @@
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item"><a href="/admin">Home</a></li>
               <li class="breadcrumb-item active">Dashboard v1</li>
             </ol>
           </div><!-- /.col -->
@@ -76,7 +85,37 @@
     <section class="content">
         <div class="row"> 
             <div class="col-md-12">
-                    All Registered vehicles will go here            
+                <table class="table">
+    <thead class="thead-dark">
+    <tr>
+        <th>SN</th>
+        <th>FIRST NAME</th>
+        <th>LAST NAME</th>
+        <th>VEHICLE NUMBER</th>
+        <th>VEHICLE COLOUR</th>
+        <th>TIME</th>
+        <th></th>
+    </tr>
+    </thead>
+    {% if results %}
+    {% for result in results %}
+    <tbody>
+    <tr>
+
+        <td>{{ loop.index }}</td>
+        <td>{{ result.firstname }}</td>
+        <td>{{ result.lastname }}</td>
+        <td>{{ result.vehicle_number }}</td>
+        <td>{{ result.color }}</td>
+        <td>{{ moment(result.created_on).format('LLL') }}</td>
+        <td><form action="{{ url_for('delete', vehicle_number=result.vehicle_number) }}" method="post">
+            <input type="submit" value="Delete" class="btn">
+        </form></td>
+    </tr>
+    </tbody>
+    {% endfor %}
+    {% endif %}
+</table>
             </div>
         </div>
 
