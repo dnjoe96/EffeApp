@@ -245,8 +245,9 @@ def search():
 
 @app.route('/vehicle')
 def vehicle():
-    result = Vehicle.query.filter_by(vehicle_number=session['search']).first() 
-    return render_template('vehicle/vehicle.html',result = result)
+    result = Vehicle.query.filter_by(vehicle_number=session['search']).first()
+    img = '..' + result.image[3:]
+    return render_template('vehicle/vehicle.html',result = result, imgi=img)
 
 
 @app.route('/delete/<vehicle_number>', methods=['POST'])
