@@ -205,14 +205,14 @@ def add():
         color = form.color.data
 
         '''trying file upload'''
-        img = form.image.data
-        # filename = secure_filename(form.image.data.filename)
-        # image = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        # form.image.data.save(image)
+        # img = form.image.data
+        filename = secure_filename(form.image.data.filename)
+        image = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        form.image.data.save(image)
         existing_vehicle = Vehicle.query.filter_by(vehicle_number=vehicle_number).first()
 
         if existing_vehicle is None:
-            vehicle = Vehicle(firstname=firstname,lastname=lastname,vehicle_number=vehicle_number,chasis_num=chasis_num,color=color,image=img.read())
+            vehicle = Vehicle(firstname=firstname,lastname=lastname,vehicle_number=vehicle_number,chasis_num=chasis_num,color=color,image=image)
             db.session.add(vehicle)
             db.session.commit()
             flash('New vehicle added successfully')
