@@ -10,7 +10,9 @@
 {% endwith %}
 
 {% if error %}
-<div class="alert alert-danger">{{ error }}
+<script type="javascript">
+alert({{ error }})
+</script>
 {% endif %}
 
 {% if msg %}
