@@ -40,11 +40,12 @@
                     <p>Vehicle Number:{{result.vehicle_number}}</p>
                     <p>Chasis number:{{result.chasis_num}}</p>
                 </div>
-            </div>
-            {% if session.logged_in %}
+                {% if session.logged_in %}
             <button type="button" class="btn btn-success"><a href="{{ url_for('admin') }}">Return to Dashboard</a></button>
             {% endif %}
             <button type="button" class="btn btn-success"><a href="{{ url_for('search') }}">Back</a></button>
+            </div>
+            
         </div>
     </div>
 
