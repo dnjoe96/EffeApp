@@ -35,8 +35,9 @@ def home():
     the form where the client will input ID for the vehicle will be rendered here on get and on submission,
     validate from database.
     '''
+
     form = SearchForm()
-    return render_template('vehicle/search.html', form=form)
+    return render_template('vehicle/search.html', form=form, admin=admin)
 
 
 ####################################################################################################################

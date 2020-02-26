@@ -14,17 +14,13 @@
 
     
 
-    <link href="{{url_for('static',filename='vehicle/vendor/mdi-font/css/material-design-iconic-font.min.css')}}" rel="stylesheet" media="all">
-    <link href="{{url_for('static',filename='vehicle/vendor/font-awesome-4.7/css/font-awesome.min.css')}}" rel="stylesheet" media="all">
     <!-- Font special for pages-->
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
 
-    <!-- Vendor CSS-->
-    <link href="{{url_for('static',filename='vehicle/vendor/select2/select2.min.css')}}" rel="stylesheet" media="all">
-    <link href="{{url_for('static',filename='vehicle/vendor/datepicker/daterangepicker.css')}}" rel="stylesheet" media="all">
 
     <!-- Main CSS-->
     <link href="{{url_for('static',filename='vehicle/css/main.css')}}" rel="stylesheet" media="all">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 
 <body>
@@ -40,52 +36,59 @@
                     <form action="" method ="POST" enctype="multipart/form-data">
                         {{ form.hidden_tag() }}
                         <div class="row row-space">
-                            <div class="col-2">
+                            <div class="col">
                                 <div class="input-group">
                                     {{render_field(form.firstname, class="form-control")}}
                                 </div>
                             </div>
-                            <div class="col-2">
+                            <div class="col">
                                 <div class="input-group">
                                     {{render_field(form.lastname, class="form-control")}}
                                 </div>
                             </div>
                         </div>
                         <div class="row row-space">
-                            <div class="col-2">
+                            <div class="col">
                                 <div class="input-group">
                                     {{render_field(form.vehicle_number, class="form-control")}}
                                  </div>
                             </div>
-                            <div class="col-2">
+                            <div class="col">
                                 <div class="input-group">
                                     {{render_field(form.chasis_num, class="form-control")}}
                                 </div>
                             </div>
                         </div>
                         <div class="row row-space">
-                            <div class="col-2">
+                            <div class="col">
                                 <div class="input-group">
 
                                     {{render_field(form.color, class="form-control")}}                              
                                 </div>
                              </div>
-                            <div class="col-2">
+                            <div class="col">
                                 <div class="input-group">
                                     {{render_field(form.image, class="form-control")}}
                                 </div>
                             </div>
                         </div>
                         <div class="p-t-20">
-                            {{ form.submit(class="btn btn--radius btn--green")}}
+                            {{ form.submit(class="btn btn-success")}}
                         </div>
                     </form>
+                    <br>
+                    {% if session.logged_in %}
+                    <button type="button" class="btn btn-success"><a href="{{ url_for('admin') }}">Return to Dashboard</a></button>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Jquery JS-->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="{{url_for('static',filename='vehicle/vendor/jquery/jquery.min.js')}}"></script>
     <!-- Vendor JS-->
     <script src="{{url_for('static',filename='vehicle/vendor/select2/select2.min.js')}}"></script>

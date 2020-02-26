@@ -14,5 +14,5 @@ class VehicleForm(FlaskForm):
     submit = SubmitField('submit')
 
 class SearchForm(FlaskForm):
-    vehicle_number= StringField(u'Enter Vehicle Number', validators=[validators.input_required(),validators.Length(min=3, max=50)])
+    vehicle_number= StringField(u'Enter Vehicle Number  ', validators=[validators.input_required(),validators.Length(min=3, max=50)])
     submit = SubmitField('verify')
