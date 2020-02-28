@@ -10,7 +10,7 @@
     <meta name="keywords" content="Colorlib Templates">
 
     <!-- Title Page-->
-    <title>Vehicle Verification</title>
+    <title>Vehicle Identification</title>
 
     
 
@@ -52,8 +52,10 @@
                         </div>
                     </form>
                     <br>
-                    {% if session.logged_in %}
+                    {% if admin  %}
                     <button type="button" class="btn btn-success"><a href="{{ url_for('admin') }}">Return to Dashboard</a></button>
+                    {% else %}
+                    <button type="button" class="btn btn-success"><a href="{{ url_for('logout') }}">logout</a></button>
                     {% endif %}
                     
                 </div>

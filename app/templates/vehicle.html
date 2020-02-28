@@ -10,7 +10,7 @@
     <meta name="keywords" content="Colorlib Templates">
 
     <!-- Title Page-->
-    <title>Vehicle Verification</title>
+    <title>Vehicle Identification</title>
 
     
 
@@ -35,12 +35,12 @@
                 <div class="card-heading"></div>        
                 <div class="card-body">
                     <h2 class="title text-center">Vehicle Information</h2>
-                    <img src={{ imgi }} alt="Vehicle Image" height="180" width="250">
+                    
                     <p>Owner:{{result.firstname}} {{result.lastname}}</p>
                     <p>Vehicle Number:{{result.vehicle_number}}</p>
                     <p>Chasis number:{{result.chasis_num}}</p>
                 </div>
-                {% if session.logged_in %}
+                {% if admin %}
             <button type="button" class="btn btn-success"><a href="{{ url_for('admin') }}">Return to Dashboard</a></button>
             {% endif %}<br>
             <button type="button" class="btn btn-success"><a href="{{ url_for('search') }}">Back</a></button>
